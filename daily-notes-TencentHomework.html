@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日常记录</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8f0; /* 浅绿色背景 */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #4CAF50; /* 浅绿色标题 */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* 输入区域样式 */
+        .input-section {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50; /* 焦点时边框变浅绿色 */
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #FFC107; /* 黄色点缀色按钮 */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #FFA000; /* 鼠标悬停时颜色变深 */
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* 记录列表区域样式 */
+        .records-section h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #records-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .record-item {
+            background-color: #f9fff9; /* 记录条目浅绿色背景 */
+            border: 1px solid #e0f2e0; /* 浅绿色边框 */
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 轻微阴影 */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .record-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .record-content {
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            white-space: pre-wrap; /* 保留文本中的换行和空格 */
+            word-break: break-word; /* 单词过长时自动换行 */
+        }
+
+        .record-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        .delete-btn {
+            background-color: #ff6b6b; /* 删除按钮红色 */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+            width: auto; /* 覆盖全局按钮宽度 */
+            margin-top: 5px; /* 与内容隔开 */
+        }
+
+        .delete-btn:hover {
+            background-color: #e63946;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+
+            textarea {
+                min-height: 80px;
+                font-size: 0.95rem;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+
+            .record-item {
+                padding: 12px 15px;
+                margin-bottom: 12px;
+            }
+
+            .record-content {
+                font-size: 1rem;
+            }
+
+            .record-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .delete-btn {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>日常记录本</h1>
+
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <textarea id="record-input" placeholder="写下你的日常记录..."></textarea>
+            <button id="add-record-btn">添加记录</button>
+        </div>
+
+        <!-- 记录列表区域 -->
+        <div class="records-section">
+            <h2>我的记录</h2>
+            <ul id="records-list">
+                <!-- 记录将通过JavaScript动态加载到这里 -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const recordInput = document.getElementById('record-input');
+        const addRecordBtn = document.getElementById('add-record-btn');
+        const recordsList = document.getElementById('records-list');
+
+        // 定义记录数组，用于存储所有记录
+        let records = [];
+
+        /**
+         * 加载本地存储的记录
+         */
+        function loadRecords() {
+            const storedRecords = localStorage.getItem('dailyRecords');
+            if (storedRecords) {
+                records = JSON.parse(storedRecords);
+            }
+            renderRecords(); // 渲染记录列表
+        }
+
+        /**
+         * 保存记录到本地存储
+         */
+        function saveRecords() {
+            localStorage.setItem('dailyRecords', JSON.stringify(records));
+        }
+
+        /**
+         * 渲染记录列表到页面
+         */
+        function renderRecords() {
+            recordsList.innerHTML = ''; // 清空现有列表
+
+            // 倒序遍历记录，最新记录显示在最上面
+            records.slice().reverse().forEach((record, index) => {
+                // 计算原始索引，因为我们是倒序显示
+                const originalIndex = records.length - 1 - index;
+
+                const listItem = document.createElement('li');
+                listItem.classList.add('record-item');
+                listItem.innerHTML = `
+                    <p class="record-content">${record.content}</p>
+                    <div class="record-info">
+                        <span class="record-time">${new Date(record.timestamp).toLocaleString()}</span>
+                        <button class="delete-btn" data-index="${originalIndex}">删除</button>
+                    </div>
+                `;
+                recordsList.appendChild(listItem);
+            });
+
+            // 给所有删除按钮添加事件监听器
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', deleteRecord);
+            });
+        }
+
+        /**
+         * 添加新记录
+         */
+        function addRecord() {
+            const content = recordInput.value.trim(); // 获取输入内容并去除前后空格
+
+            if (content) {
+                const newRecord = {
+                    content: content,
+                    timestamp: new Date().toISOString() // 记录当前时间（ISO格式）
+                };
+                records.push(newRecord); // 将新记录添加到数组
+                saveRecords(); // 保存到本地存储
+                renderRecords(); // 重新渲染列表
+                recordInput.value = ''; // 清空输入框
+            } else {
+                alert('记录内容不能为空！');
+            }
+        }
+
+        /**
+         * 删除记录
+         * @param {Event} event - 点击事件对象
+         */
+        function deleteRecord(event) {
+            // 获取data-index属性，该属性存储了记录在records数组中的索引
+            const indexToDelete = parseInt(event.target.dataset.index);
+
+            // 确认用户是否真的要删除
+            if (confirm('确定要删除这条记录吗？')) {
+                records.splice(indexToDelete, 1); // 从数组中删除对应索引的记录
+                saveRecords(); // 保存更新后的记录到本地存储
+                renderRecords(); // 重新渲染列表
+            }
+        }
+
+        // --- 事件监听器 ---
+        addRecordBtn.addEventListener('click', addRecord); // 提交按钮点击事件
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadRecords);
+    </script>
+</body>
+</html>
